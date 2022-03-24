@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { fetchAllCharactes } from "api/characters/CharactersApi";
-import Character from "types/general/Character";
 import { useNavigate } from "react-router-dom";
 import { routes } from "routing/routes";
 import { routeIdentifiers } from "routing/routesIdentifiers";
@@ -9,6 +8,9 @@ import LoadingIndicator from "components/misc/LoadingIndicator";
 import { Gender } from "types/enums/Gender";
 import CharactersResponse from "types/api/CharactersResponse";
 import "styles/_TableOfCharacters.scss";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
+import TableNavigation from "./TableNavigation";
 
 // INFO: the first filtering system I've done was just passing the parameters to the query string
 // but since the doc says "It should be possible to filter the list of Characters returned from API by Gender."
@@ -31,19 +33,6 @@ const TableOfCharacters: FC = () => {
     }
   );
   const navigate = useNavigate();
-  const onHouseClick = (houseId: string) => {
-    routes
-      .find((route) => route.identifier === routeIdentifiers.house)
-      ?.routingFunction(navigate, { houseId });
-  };
-  const filterData = (characters: Character[]): Character[] => {
-    return characters.filter(
-      (character) =>
-        (genderFilter === Gender.ANY || character.gender === genderFilter) &&
-        (!cultureFilter.trim() ||
-          character.culture.toLowerCase().includes(cultureFilter.toLowerCase()))
-    );
-  };
 
   useEffect(() => {
     const savedPage = Number(localStorage.getItem("currentPage"));
@@ -85,138 +74,28 @@ const TableOfCharacters: FC = () => {
   return (
     <div className="table-of-characters-container">
       <table className="table-of-characters">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Alive</th>
-            <th>Gender</th>
-            <th>Culture</th>
-            <th>Allegiances</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data &&
-            filterData(data.characters).map((character) => {
-              return (
-                <tr key={character.id}>
-                  <td>{character.character}</td>
-                  <td>{character.alive}</td>
-                  <td>{character.gender}</td>
-                  <td>{character.culture}</td>
-                  <td>
-                    {character.allegiances.length
-                      ? character.allegiances.map((allegiance) => (
-                          <React.Fragment key={allegiance}>
-                            <span
-                              className="house-button"
-                              onClick={() => onHouseClick(allegiance)}
-                            >
-                              {`${allegiance}`}
-                            </span>{" "}
-                          </React.Fragment>
-                        ))
-                      : "No allegiances"}
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
+        <TableHeader />
+        {data && (
+          <TableBody
+            characters={data.characters}
+            genderFilter={genderFilter}
+            cultureFilter={cultureFilter}
+          />
+        )}
       </table>
-      <div className="table-navigation">
-        <div className="pages-navigation">
-          <div className="pages-navigation-page-description">
-            Current page: {currentPage} / {data?.lastPage}
-          </div>
-          <div className="pages-navigation-buttons-group">
-            <button
-              className={
-                currentPage === 1
-                  ? "pages-navigation-button-disabled"
-                  : "pages-navigation-button"
-              }
-              type="button"
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-            >
-              First page
-            </button>
-            <button
-              className={
-                currentPage === 1
-                  ? "pages-navigation-button-disabled"
-                  : "pages-navigation-button"
-              }
-              type="button"
-              onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous page
-            </button>
-            <button
-              className={
-                currentPage === Number(data?.lastPage)
-                  ? "pages-navigation-button-disabled"
-                  : "pages-navigation-button"
-              }
-              type="button"
-              onClick={() => setCurrentPage((currentPage) => currentPage + 1)}
-              disabled={currentPage === Number(data?.lastPage)}
-            >
-              Next page
-            </button>
-            <button
-              className={
-                currentPage === Number(data?.lastPage)
-                  ? "pages-navigation-button-disabled"
-                  : "pages-navigation-button"
-              }
-              type="button"
-              onClick={() => setCurrentPage(data ? Number(data.lastPage) : 1)}
-              disabled={currentPage === Number(data?.lastPage)}
-            >
-              Last page
-            </button>
-          </div>
-        </div>
-        <div className="filters">
-          <div className="filter">
-            <label htmlFor="gender-filter-select">Gender:</label>
-            <select
-              value={genderFilter}
-              onChange={(e) => setGenderFilter(e.target.value as Gender)}
-              name="gender-filter-select"
-              id="gender-filter-select"
-            >
-              <option value={Gender.ANY}>Any</option>
-              <option value={Gender.MALE}>Male</option>
-              <option value={Gender.FEMALE}>Female</option>
-            </select>
-          </div>
-          <div className="filter">
-            <label htmlFor="culture-filter">Culture:</label>
-            <input
-              placeholder="Wes..."
-              name="culture-filter"
-              type="text"
-              value={cultureFilter}
-              onChange={(e) => setCultureFilter(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="page-size-select">
-          <label htmlFor="page-size-select">Page size:</label>
-          <select
-            value={pageSize}
-            onChange={(e) => setPageSize(Number(e.target.value))}
-            name="page-size-select"
-            id="page-size-select"
-          >
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-          </select>
-        </div>
-      </div>
+      {data && (
+        <TableNavigation
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          pageSize={pageSize}
+          setPageSize={setPageSize}
+          genderFilter={genderFilter}
+          setGenderFilter={setGenderFilter}
+          cultureFilter={cultureFilter}
+          setCultureFilter={setCultureFilter}
+          lastPage={data.lastPage}
+        />
+      )}
     </div>
   );
 };
