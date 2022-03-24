@@ -6,7 +6,3 @@ export const fetchWithJson = async (url: string): Promise<GeneralApiResponse> =>
 
   return { headers: serverResponse.headers, json };
 };
-
-export const areTestsRunning = (): boolean => {
-  return process.env.JEST_WORKER_ID !== undefined;
-};
