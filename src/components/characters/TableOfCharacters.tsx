@@ -104,16 +104,18 @@ const TableOfCharacters: FC = () => {
                   <td>{character.gender}</td>
                   <td>{character.culture}</td>
                   <td>
-                    {character.allegiances.map((allegiance) => (
-                      <React.Fragment key={allegiance}>
-                        <span
-                          className="house-button"
-                          onClick={() => onHouseClick(allegiance)}
-                        >
-                          {`${allegiance}`}
-                        </span>{" "}
-                      </React.Fragment>
-                    ))}
+                    {character.allegiances.length
+                      ? character.allegiances.map((allegiance) => (
+                          <React.Fragment key={allegiance}>
+                            <span
+                              className="house-button"
+                              onClick={() => onHouseClick(allegiance)}
+                            >
+                              {`${allegiance}`}
+                            </span>{" "}
+                          </React.Fragment>
+                        ))
+                      : "No allegiances"}
                   </td>
                 </tr>
               );
