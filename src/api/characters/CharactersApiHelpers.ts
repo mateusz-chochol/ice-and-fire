@@ -61,6 +61,14 @@ const getCharacterName = ({
   return `${name} also known as ${aliases.join(", ")}`;
 };
 
+const getCharacterCulture = ({ culture }: { culture: string }): string => {
+  if (!culture || culture.trim() === "") {
+    return "Unknown";
+  }
+
+  return culture;
+};
+
 export const getLastPageId = (headers: Headers): string | undefined => {
   return headers
     .get("link")
@@ -78,7 +86,7 @@ export const convertCharacterDtoToCharacter = (
     character: getCharacterName(characterDto),
     alive: getCharacterAliveStatus(characterDto),
     gender: characterDto.gender,
-    culture: characterDto.culture ?? "Unknown",
+    culture: getCharacterCulture(characterDto),
     allegiances: characterDto.allegiances.length
       ? getCharacterAllegiancesIds(characterDto)
       : [],
