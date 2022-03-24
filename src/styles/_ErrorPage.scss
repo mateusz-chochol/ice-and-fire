@@ -1,0 +1,13 @@
+@use "fonts.scss" as fonts;
+
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px);
+}
+
+.error-page-description {
+  font-size: xx-large;
+  font-family: fonts.$roboto;
+}

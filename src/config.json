@@ -1,0 +1,6 @@
+{
+  "api": {
+    "charactersBaseUrl": "https://www.anapioficeandfire.com/api/characters",
+    "housesBaseUrl": "https://www.anapioficeandfire.com/api/houses"
+  }
+}

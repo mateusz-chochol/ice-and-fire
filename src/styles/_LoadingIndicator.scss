@@ -1,0 +1,13 @@
+@use "fonts.scss" as fonts;
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px);
+}
+
+.loading-indicator-description {
+  font-size: xx-large;
+  font-family: fonts.$roboto;
+}

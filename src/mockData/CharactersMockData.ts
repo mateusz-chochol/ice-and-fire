@@ -1,0 +1,26 @@
+export const mockData = {
+  characterDto: {
+    url: "https://www.anapioficeandfire.com/api/characters/31",
+    name: "Addam Marbrand",
+    gender: "Male",
+    culture: "Some culture",
+    born: "400 AC",
+    died: "Some time in 450 AC",
+    titles: ["Ser"],
+    aliases: ["Commander of the City Watch"],
+    father: "",
+    mother: "",
+    spouse: "",
+    allegiances: ["https://www.anapioficeandfire.com/api/houses/258"],
+    books: [
+      "https://www.anapioficeandfire.com/api/books/1",
+      "https://www.anapioficeandfire.com/api/books/2",
+      "https://www.anapioficeandfire.com/api/books/3",
+      "https://www.anapioficeandfire.com/api/books/5",
+      "https://www.anapioficeandfire.com/api/books/8",
+    ],
+    povBooks: [],
+    tvSeries: ["Season 1"],
+    playedBy: ["B.J. Hogg"],
+  },
+};
