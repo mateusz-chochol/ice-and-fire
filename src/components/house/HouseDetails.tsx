@@ -7,7 +7,7 @@ import { routes } from "routing/routes";
 import { routeIdentifiers } from "routing/routesIdentifiers";
 import HouseResponse from "types/api/HouseResponse";
 import "styles/_HouseDetails.scss";
-import { ReactComponent as IconMenu } from "icons/back-icon.svg";
+import { ReactComponent as BackIcon } from "icons/back-icon.svg";
 
 const HouseDetails: FC = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ const HouseDetails: FC = () => {
 
   return (
     <div className="house-details-page">
-      <IconMenu
+      <BackIcon
         className="back-icon"
         fontSize={50}
         onClick={() => navigate(-1)}

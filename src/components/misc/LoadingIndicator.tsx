@@ -1,7 +1,7 @@
 import { FC } from "react";
 import "styles/_LoadingIndicator.scss";
 
-const ErrorPage: FC = () => {
+const LoadingIndicator: FC = () => {
   return (
     <div className="loading-indicator">
       <div className="loading-indicator-description">Loading...</div>
@@ -9,4 +9,4 @@ const ErrorPage: FC = () => {
   );
 };
 
-export default ErrorPage;
+export default LoadingIndicator;
